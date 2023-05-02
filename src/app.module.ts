@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OpenaiService } from './openai/openai.service';
 import { CandidateScanningService } from './candidate-analysis/candidate-scanning.service';
@@ -8,7 +7,7 @@ import { OpenaiModule } from './openai/openai.module';
 
 @Module({
   imports: [OpenaiModule],
-  controllers: [AppController, CandidateScanningController],
+  controllers: [CandidateScanningController],
   providers: [AppService, OpenaiService, CandidateScanningService],
 })
 export class AppModule {}
