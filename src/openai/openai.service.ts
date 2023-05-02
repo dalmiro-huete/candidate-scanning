@@ -6,31 +6,27 @@ export class OpenaiService {
   private client: any;
 
   constructor() {
-    console.log('key', process.env.OPENAI_API_KEY);
     this.client = new OpenAIApi(
       new Configuration({
-        apiKey: 'here the apiKey',
+        apiKey: process.env.OPEN_AI_API_KEY
       }),
     );
   }
 
   /**
-   * @function generateText
+   * @function module to generateText
    * @description generateText using openAI
    * @returns { Promise<string> }
    */
-  public async generateText(prompt: string): Promise<string> {
+  public async generateText(prompt: string, temperature: number): Promise<string> {
     try {
-      console.log('prompt before send', prompt);
-
       const response = await this.client.createCompletion({
         model: 'text-davinci-003',
         prompt,
         max_tokens: 1024,
-        temperature: 0.7,
+        temperature: temperature,
       });
 
-      console.log(response.data);
       return response.data.choices[0].text;
     } catch (e) {
       console.log('ERROR  -> ', e);
