@@ -1,5 +1,5 @@
 export declare class OpenaiService {
     private client;
     constructor();
-    generateText(prompt: string): Promise<string>;
+    generateText(prompt: string, temperature: number): Promise<string>;
 }

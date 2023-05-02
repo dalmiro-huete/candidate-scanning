@@ -14,21 +14,18 @@ const common_1 = require("@nestjs/common");
 const openai_1 = require("openai");
 let OpenaiService = class OpenaiService {
     constructor() {
-        console.log('key', process.env.OPENAI_API_KEY);
         this.client = new openai_1.OpenAIApi(new openai_1.Configuration({
-            apiKey: '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',
+            apiKey: process.env.OPEN_AI_API_KEY
         }));
     }
-    async generateText(prompt) {
+    async generateText(prompt, temperature) {
         try {
-            console.log('prompt before send', prompt);
             const response = await this.client.createCompletion({
                 model: 'text-davinci-003',
                 prompt,
                 max_tokens: 1024,
-                temperature: 0.7,
+                temperature: temperature,
             });
-            console.log(response.data);
             return response.data.choices[0].text;
         }
         catch (e) {

@@ -18,12 +18,10 @@ let CandidateScanningService = class CandidateScanningService {
     }
     async candidateScanning(resume) {
         const extractedInfo = await this.extractInformation(resume);
-        console.log('extractedInfo is', extractedInfo);
         return 'processed';
     }
     async extractInformation(resume) {
-        console.log('calling extractInformation');
-        const response = await this.openaiService.generateText(`extract from this curriculum (${resume.resume}) . Important information is divided into these sections: candidate name, education, certifications, skills, and experience. `);
+        const response = await this.openaiService.generateText(`extract from this curriculum (${resume.resume}) . Important information is divided into these sections: candidate name, education, certifications, skills, and experience. `, 0.7);
         return response;
     }
 };
