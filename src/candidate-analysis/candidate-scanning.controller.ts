@@ -10,7 +10,6 @@ export class CandidateScanningController {
 
   @Post()
   async candidateScanning(@Body() resume: Resume): Promise<any> {
-    console.log('hitting endpoint::22');
     const response = await this.candidateScanningService.candidateScanning(
       resume
     );

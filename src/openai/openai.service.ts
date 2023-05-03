@@ -8,8 +8,7 @@ export class OpenaiService {
   constructor() {
     this.client = new OpenAIApi(
       new Configuration({
-        apiKey: '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'
-        // apiKey: process.env.OPEN_AI_API_KEY,
+        apiKey: process.env.OPEN_AI_API_KEY
       })
     );
   }
