@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Configuration, OpenAIApi } from 'openai';
+import { Injectable } from "@nestjs/common";
+import { Configuration, OpenAIApi } from "openai";
 
 @Injectable()
 export class OpenaiService {
@@ -8,8 +8,8 @@ export class OpenaiService {
   constructor() {
     this.client = new OpenAIApi(
       new Configuration({
-        apiKey: process.env.OPEN_AI_API_KEY
-      }),
+        apiKey: process.env.OPEN_AI_API_KEY,
+      })
     );
   }
 
@@ -18,18 +18,22 @@ export class OpenaiService {
    * @description generateText using openAI
    * @returns { Promise<string> }
    */
-  public async generateText(prompt: string, temperature: number): Promise<string> {
+  public async generateText(
+    prompt: string,
+    temperature: number
+  ): Promise<string> {
     try {
       const response = await this.client.createCompletion({
-        model: 'text-davinci-003',
+        model: "text-davinci-003",
         prompt,
-        max_tokens: 1024,
-        temperature: temperature,
+        max_tokens: 2048,
+        temperature,
       });
 
       return response.data.choices[0].text;
     } catch (e) {
-      console.log('ERROR  -> ', e);
+      console.log("ERROR  -> ", e);
+      throw e;
     }
   }
 }
