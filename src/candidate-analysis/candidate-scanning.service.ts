@@ -69,9 +69,9 @@ export class CandidateScanningService {
 
   private async generalOverview(resume: Resume["resume"]): Promise<string> {
     const response = await this.openaiService.generateText(
-      `Consider yourselve as a professional writter, extract from this curriculum ${resume}, the most relevant information and
-      return a text with a general overview of the candidate, highlighting candidate most remarkable skills and experience, and
-      how relevant would it be in the valhalla in a 250 words paragraph.`,
+      `Consider yourself as a professional writter, extract from this curriculum ${resume}, the most relevant information and
+      return a text with a general overview of the candidate, highlighting its most remarkable skills and experience in a 250
+      words paragraph.`,
       0
     );
 
