@@ -21,18 +21,25 @@ let CandidateScanningService = class CandidateScanningService {
         const extractedInformation = await this.extractInformation(resume);
         const jobTitleClassification = await this.classifyPerJobTitle(resume);
         const sentimentAnalysis = await this.sentimentAnalysis(resume);
+        const generalOverview = await this.generalOverview(resume);
         return {
             extractedInformation: JSON.parse(extractedInformation),
             jobTitleClassification: JSON.parse(jobTitleClassification),
-            sentimentAnalysis: JSON.parse(sentimentAnalysis),
+            generalOverview: JSON.parse(generalOverview),
+            sentimentAnalysis: JSON.parse(sentimentAnalysis)
         };
     }
     async extractInformation(resume) {
-        const response = await this.openaiService.generateText(`Consider yourself a senior recruiter, extract from this curriculum (${resume}), the most important information structured in a valid stringified JSON format with the following attributes in it: candidate name, education, certifications, skills and experience. `, 0);
+        const response = await this.openaiService.generateText(`Consider yourself a senior recruiter, extract from this curriculum (${resume}), 
+      the most important information structured in a valid stringified JSON format with the following attributes in it: candidate name, education, certifications, skills and experience. `, 0);
+        return response;
+    }
+    async generalOverview(resume) {
+        const response = await this.openaiService.generateText(`Considering yourselve as a senior recruiter, extract from this curriculum ${resume}, the most relevant information and return a string value with a general overview of the candidate, highlighting candidate most remarkable skills and experience in a 250 words paragraph. Structure information in a valid JSON stringified format`, 0);
         return response;
     }
     async classifyPerJobTitle(resume) {
-        const response = await this.openaiService.generateText(`Consider yourself a senior recruiter, and set a score for this curriculum (${resume}) from 0 to 100, depending of how fit is it for each one of the job titles inside the next array (${job_titles_constant_1.JOB_TITLES.join(", ")}). Set the first ten fittest job titles in a valid stringified JSON format of an array of elements with the following attributes: job title and score, sorted in a descendant manner by the score you calculated.`, 0);
+        const response = await this.openaiService.generateText(`Consider yourself a senior recruiter, and set a score for this curriculum (${resume}) from 0 to 100, depending of how fit is it for each one of the job titles inside the next array (${job_titles_constant_1.JOB_TITLES.join(', ')}). Set the first ten fittest job titles in a valid stringified JSON format of an array of elements with the following attributes: job title and score, sorted in a descendant manner by the score you calculated.`, 0);
         return response;
     }
     async sentimentAnalysis(resume) {

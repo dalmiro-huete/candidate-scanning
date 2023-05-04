@@ -1,8 +1,8 @@
-import { Body, Controller, Post } from "@nestjs/common";
-import { CandidateScanningService } from "./candidate-scanning.service";
-import { Resume } from "../common/entities/resume.interface";
+import { Body, Controller, Post } from '@nestjs/common';
+import { CandidateScanningService } from './candidate-scanning.service';
+import { Resume } from '../common/entities/resume.interface';
 
-@Controller("candidate-scanning")
+@Controller('candidate-scanning')
 export class CandidateScanningController {
   constructor(
     private readonly candidateScanningService: CandidateScanningService
