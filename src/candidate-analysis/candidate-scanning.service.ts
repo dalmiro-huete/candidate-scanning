@@ -11,9 +11,11 @@ export class CandidateScanningService {
     //1.  Named entity recognition
     const extractedInformation = await this.extractInformation(resume);
 
-    //2.  Sentiment analysis
-
+    //2. Job title Classification
     const jobTitleClassification = await this.classifyPerJobTitle(resume);
+
+    //3.  Sentiment analysis
+    const sentimentAnalysis = await this.sentimentAnalysis(resume);
 
     //4. Recruiter tool for General candidate overview
     const generalOverview = await this.generalOverview(resume);
@@ -22,7 +24,8 @@ export class CandidateScanningService {
     return {
       extractedInformation: JSON.parse(extractedInformation),
       jobTitleClassification: JSON.parse(jobTitleClassification),
-      generalOverview: JSON.parse(generalOverview)
+      generalOverview: JSON.parse(generalOverview),
+      sentimentAnalysis: JSON.parse(sentimentAnalysis)
     };
   }
 
@@ -53,6 +56,15 @@ export class CandidateScanningService {
       `Consider yourself a senior recruiter, and set a score for this curriculum (${resume}) from 0 to 100, depending of how fit is it for each one of the job titles inside the next array (${JOB_TITLES.join(
         ', '
       )}). Set the first ten fittest job titles in a valid stringified JSON format of an array of elements with the following attributes: job title and score, sorted in a descendant manner by the score you calculated.`,
+      0
+    );
+
+    return response;
+  }
+
+  private async sentimentAnalysis(resume: Resume['resume']): Promise<string> {
+    const response = await this.openaiService.generateText(
+      `Make a detailed sentiment analysis from this curriculum (${resume}) structured in a valid stringified JSON format with the following attributes:  tone (positive, negative, or neutral), percentage of tone, and sentiment analysis (explanation of the analysis: what you take into consideration to make the sentimental analysis) with a max length of 50 characters`,
       0
     );
 
