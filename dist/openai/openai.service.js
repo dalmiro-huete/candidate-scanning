@@ -15,7 +15,7 @@ const openai_1 = require("openai");
 let OpenaiService = class OpenaiService {
     constructor() {
         this.client = new openai_1.OpenAIApi(new openai_1.Configuration({
-            apiKey: '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',
+            apiKey: process.env.OPEN_AI_API_KEY,
         }));
     }
     async generateText(prompt, temperature) {
