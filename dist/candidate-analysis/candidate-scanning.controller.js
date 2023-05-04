@@ -21,7 +21,7 @@ let CandidateScanningController = class CandidateScanningController {
     }
     async candidateScanning(resume) {
         const response = await this.candidateScanningService.candidateScanning(resume);
-        return Promise.resolve(response);
+        return response;
     }
 };
 __decorate([
@@ -32,7 +32,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CandidateScanningController.prototype, "candidateScanning", null);
 CandidateScanningController = __decorate([
-    (0, common_1.Controller)('candidate-scanning'),
+    (0, common_1.Controller)("candidate-scanning"),
     __metadata("design:paramtypes", [candidate_scanning_service_1.CandidateScanningService])
 ], CandidateScanningController);
 exports.CandidateScanningController = CandidateScanningController;

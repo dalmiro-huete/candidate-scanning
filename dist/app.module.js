@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const app_service_1 = require("./app.service");
 const openai_service_1 = require("./openai/openai.service");
 const candidate_scanning_service_1 = require("./candidate-analysis/candidate-scanning.service");
@@ -17,7 +18,7 @@ let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [openai_module_1.OpenaiModule],
+        imports: [config_1.ConfigModule.forRoot({ envFilePath: "config.env" }), openai_module_1.OpenaiModule],
         controllers: [candidate_scanning_controller_1.CandidateScanningController],
         providers: [app_service_1.AppService, openai_service_1.OpenaiService, candidate_scanning_service_1.CandidateScanningService],
     })

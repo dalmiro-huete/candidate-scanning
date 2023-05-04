@@ -15,21 +15,22 @@ const openai_1 = require("openai");
 let OpenaiService = class OpenaiService {
     constructor() {
         this.client = new openai_1.OpenAIApi(new openai_1.Configuration({
-            apiKey: process.env.OPEN_AI_API_KEY
+            apiKey: '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',
         }));
     }
     async generateText(prompt, temperature) {
         try {
             const response = await this.client.createCompletion({
-                model: 'text-davinci-003',
+                model: "text-davinci-003",
                 prompt,
-                max_tokens: 1024,
-                temperature: temperature,
+                max_tokens: 3000,
+                temperature,
             });
             return response.data.choices[0].text;
         }
         catch (e) {
-            console.log('ERROR  -> ', e);
+            console.log("ERROR  -> ", e);
+            throw e;
         }
     }
 };
