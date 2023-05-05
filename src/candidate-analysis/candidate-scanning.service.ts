@@ -11,20 +11,14 @@ export class CandidateScanningService {
     //1.  Named entity recognition
     const extractedInformation = await this.extractInformation(resume);
 
-    // //3.  Sentiment analysis
-    // const sentimentAnalysis = await this.sentimentAnalysis(resume);
-
-    // //4. Recruiter tool for General candidate overview
-    // const generalOverview = await this.generalOverview(resume);
-
-    //3.1. Recruiter tool for General candidate overview
+    //2. Recruiter tool for General candidate overview
     const sentimentAnalysisAndGeneralOverview =
       await this.sentimentAnalysisAndGeneralOverview(resume);
 
     const { generalOverview, sentimentAnalysis } =
       JSON.parse(sentimentAnalysisAndGeneralOverview)?.result || {};
 
-    //4. Job title Classification
+    //3. Job title Classification
     const industryClassification = await this.classifyPerIndustry(
       generalOverview
     );
@@ -54,38 +48,19 @@ export class CandidateScanningService {
     const response = await this.openaiService.generateText(
       `You will generate a valid stringified JSON format called 'result' according to the following steps, from this curriculum
         (${resume}), that you will identify as 'The Curriculum'.
-        First you will consider yourselve as a professional writter, extract the most relevant information from 'The Curriculum'
+        First you will consider yourself as a professional writer, extract the most relevant information from 'The Curriculum'
         return a text with a general overview of the candidate, highlighting the most remarkable skills and experience in a 250
-        words paragraph, and add it to an attribute called 'general overview' inside 'result'.
+        words paragraph, and add it to an attribute called 'generalOverview' inside 'result'.
         Then you will make a detailed sentiment analysis from 'The Curriculum' in a valid stringified JSON format with the
-        following attributes: tone (positive, negative, or neutral), percentage of tone, sentiment analysis (explanation of
-        the analysis: what you take into consideration to make the sentimental analysis) with a max length of 50 characters,
-        and add it to an attribute called 'sentiment analysis' inside 'result'.`,
-      0
+        following attributes: tone (positive, negative, or neutral), percentage of tone and sentiment analysis (explanation of
+        the analysis you did, what you take into consideration to define the tone ? ) with a max length of 80 characters,
+        and add it to an attribute called 'sentimentAnalysis' inside 'result'`,
+      0.3
     );
 
     return response;
   }
 
-  private async generalOverview(resume: Resume["resume"]): Promise<string> {
-    const response = await this.openaiService.generateText(
-      `Consider yourself as a professional writter, extract from this curriculum ${resume}, the most relevant information and
-      return a text with a general overview of the candidate, highlighting its most remarkable skills and experience in a 250
-      words paragraph.`,
-      0
-    );
-
-    return response;
-  }
-
-  private async sentimentAnalysis(resume: Resume["resume"]): Promise<string> {
-    const response = await this.openaiService.generateText(
-      `Make a detailed sentiment analysis from this curriculum (${resume}) structured in a valid stringified JSON format with the following attributes:  tone (positive, negative, or neutral), percentage of tone, and sentiment analysis (explanation of the analysis: what you take into consideration to make the sentimental analysis) with a max length of 50 characters`,
-      0
-    );
-
-    return response;
-  }
 
   private async classifyPerIndustry(resume: Resume["resume"]): Promise<string> {
     const response = await this.openaiService.generateText(

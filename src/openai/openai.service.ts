@@ -8,7 +8,7 @@ export class OpenaiService {
   constructor() {
     this.client = new OpenAIApi(
       new Configuration({
-        apiKey: process.env.OPEN_AI_API_KEY,
+        apiKey: 'TOKEN HERE',
       })
     );
   }
