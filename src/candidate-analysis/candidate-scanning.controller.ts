@@ -5,14 +5,14 @@ import { Resume } from '../common/entities/resume.interface';
 @Controller('candidate-scanning')
 export class CandidateScanningController {
   constructor(
-    private readonly candidateScanningService: CandidateScanningService,
+    private readonly candidateScanningService: CandidateScanningService
   ) {}
 
   @Post()
-  async candidateScanning(@Body() resume: Resume): Promise<string> {
+  async candidateScanning(@Body() resume: Resume): Promise<any> {
     const response = await this.candidateScanningService.candidateScanning(
-      resume,
+      resume
     );
-    return Promise.resolve(response);
+    return response;
   }
 }
